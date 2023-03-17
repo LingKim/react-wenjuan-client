@@ -1,7 +1,12 @@
 import React from 'react'
+import List from './pages/List.jsx'
 
 function App() {
-  return <div className="App">app</div>
+  return (
+    <>
+      <List />
+    </>
+  )
 }
 
 export default App
