@@ -18,3 +18,9 @@
 .footer {
   text-align: center;
 }
+
+:global(.text_bg){
+  background-color: pink;
+  width: 100px;
+  height: 50px;
+}

@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import QuestionCard from '../components/QuestionCard'
+import QuestionCard from '../../components/QuestionCard'
 import styles from './List.module.scss'
 
 const List: FC = () => {
@@ -40,6 +40,7 @@ const List: FC = () => {
   return (
     <>
       <div className={styles.header}>
+        <div className="text_bg">textaaaa</div>
         <div className={styles.left}>
           <h3>我的问卷</h3>
         </div>

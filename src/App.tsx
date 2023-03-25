@@ -1,5 +1,5 @@
 import React from 'react'
-import List from './pages/List.jsx'
+import List from './pages/manage/List.jsx.js'
 
 function App() {
   return (
