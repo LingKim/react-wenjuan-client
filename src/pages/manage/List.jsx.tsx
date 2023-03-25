@@ -1,6 +1,9 @@
 import React, { FC, useState } from 'react'
+import { Typography } from 'antd'
 import QuestionCard from '../../components/QuestionCard'
-import styles from './List.module.scss'
+import styles from './common.module.scss'
+
+const { Title } = Typography
 
 const List: FC = () => {
   const [questionList, setQuestionList] = useState([
@@ -40,9 +43,8 @@ const List: FC = () => {
   return (
     <>
       <div className={styles.header}>
-        <div className="text_bg">textaaaa</div>
         <div className={styles.left}>
-          <h3>我的问卷</h3>
+          <Title level={3}>我的问卷</Title>
         </div>
         <div className={styles.right}>搜索</div>
       </div>
@@ -51,7 +53,7 @@ const List: FC = () => {
           return <QuestionCard key={item._id} {...item} />
         })}
       </div>
-      <div className={styles.footer}>footer</div>
+      <div className={styles.footer}>LoadMore...</div>
     </>
   )
 }

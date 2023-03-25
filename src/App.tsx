@@ -1,12 +1,9 @@
 import React from 'react'
-import List from './pages/manage/List.jsx.js'
+import { RouterProvider } from 'react-router-dom'
+import router from './router'
 
 function App() {
-  return (
-    <>
-      <List />
-    </>
-  )
+  return <RouterProvider router={router}></RouterProvider>
 }
 
 export default App
