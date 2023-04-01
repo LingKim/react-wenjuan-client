@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react'
 import { Typography } from 'antd'
 import QuestionCard from '../../components/QuestionCard'
+import ListSearch from '../../components/ListSearch'
 import styles from './common.module.scss'
 
 const { Title } = Typography
@@ -46,7 +47,9 @@ const List: FC = () => {
         <div className={styles.left}>
           <Title level={3}>我的问卷</Title>
         </div>
-        <div className={styles.right}>搜索</div>
+        <div className={styles.right}>
+          <ListSearch />
+        </div>
       </div>
       <div className={styles.content}>
         {questionList.map(item => {
