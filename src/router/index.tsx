@@ -8,7 +8,7 @@ import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import NotFound from '../pages/NotFound'
-import List from '../pages/manage/List.jsx'
+import List from '../pages/manage/List'
 import Trash from '../pages/manage/Trash'
 import Star from '../pages/manage/Star'
 import Stat from '../pages/question/Stat'
@@ -78,3 +78,11 @@ export const HOME_PATHNAME = '/'
 export const LOGIN_PATHNAME = '/login'
 export const REGISTER_PATHNAME = '/register'
 export const MANAGE_INDEX_PATHNAME = '/manage/list'
+
+export function isLoginOrRegister(pathname: string) {
+  return [LOGIN_PATHNAME, REGISTER_PATHNAME].includes(pathname)
+}
+
+export function isNoNeedUserInfo(pathname: string) {
+  return [HOME_PATHNAME, REGISTER_PATHNAME, LOGIN_PATHNAME].includes(pathname)
+}

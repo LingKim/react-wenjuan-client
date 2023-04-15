@@ -1,11 +1,20 @@
 import axios from 'axios'
 import type { AxiosResponse, AxiosError } from 'axios'
 import { message } from 'antd'
+import { getToken } from '../utils/user-token'
 const instance = axios.create({
   timeout: 10 * 10000,
 })
 
-// instance.interceptors.request.use(() => {})
+instance.interceptors.request.use(
+  config => {
+    config.headers['Authorization'] = `Bearer ${getToken()}`
+    return config
+  },
+  (error: any) => {
+    return Promise.reject(error)
+  }
+)
 
 instance.interceptors.response.use(
   (res: AxiosResponse) => {

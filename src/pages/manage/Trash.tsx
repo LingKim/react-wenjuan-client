@@ -1,16 +1,55 @@
 import React, { FC, useState } from 'react'
-import { Typography, Empty, Table, Tag, Button, Space, Modal, Spin } from 'antd'
+import { Button, Empty, Modal, Space, Spin, Table, Tag, Typography, message } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import ListSearch from '../../components/ListSearch'
+import ListPage from '../../components/listPage'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
+import { useRequest } from 'ahooks'
+import { updateQuestionService, deleteQuestionService } from '../../services/question'
 import styles from './common.module.scss'
-import type { IList } from '../../types/list'
+
 const { Title } = Typography
 const { confirm } = Modal
 const Trash: FC = () => {
-  const [loading, data] = useLoadQuestionListData({ isDeleted: true })
+  const [loading, data, refresh] = useLoadQuestionListData({ isDeleted: true })
 
   const [selectIds, setSelectIds] = useState<string[]>([])
+
+  //恢复
+  const { run: recover } = useRequest(
+    async () => {
+      for await (const id of selectIds) {
+        await updateQuestionService(id, {
+          isDeleted: true,
+        })
+      }
+    },
+    {
+      manual: true,
+      debounceWait: 500,
+      onSuccess() {
+        message.success('恢复成功')
+        refresh()
+      },
+    }
+  )
+
+  //恢复
+  const { run: deleteQuestion } = useRequest(
+    async () => {
+      await deleteQuestionService(selectIds)
+    },
+    {
+      manual: true,
+      debounceWait: 500,
+      onSuccess() {
+        message.success('删除成功')
+        refresh()
+        setSelectIds([])
+      },
+    }
+  )
+
   const tableColumns = [
     {
       title: '标题',
@@ -39,7 +78,7 @@ const Trash: FC = () => {
       icon: <ExclamationCircleOutlined />,
       content: '删除以后不可以找回',
       onOk: () => {
-        console.log('1111')
+        deleteQuestion()
       },
     })
   }
@@ -48,7 +87,7 @@ const Trash: FC = () => {
     <>
       <div style={{ marginBottom: '20px' }}>
         <Space>
-          <Button type="primary" disabled={selectIds.length === 0}>
+          <Button type="primary" disabled={selectIds.length === 0} onClick={recover}>
             恢复
           </Button>
           <Button danger disabled={selectIds.length === 0} onClick={del}>
@@ -89,6 +128,9 @@ const Trash: FC = () => {
         )}
         {!loading && data.list.length === 0 && <Empty />}
         {!loading && data.list.length > 0 && TableElem}
+      </div>
+      <div className={styles.footer}>
+        <ListPage total={data && data.total} />
       </div>
     </>
   )

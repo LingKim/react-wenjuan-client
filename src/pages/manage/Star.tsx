@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { Typography, Empty, Spin } from 'antd'
 import QuestionCard from '../../components/QuestionCard'
 import ListSearch from '../../components/ListSearch'
+import ListPage from '../../components/listPage'
 import useLoadQuestionListData from '../../hooks/useLoadQuestionListData'
 import styles from './common.module.scss'
 import type { IList } from '../../types/list'
@@ -31,7 +32,9 @@ const Star: FC = () => {
             return <QuestionCard key={item._id} {...item} />
           })}
       </div>
-      <div className={styles.footer}>分页</div>
+      <div className={styles.footer}>
+        <ListPage total={data && data.total} />
+      </div>
     </>
   )
 }

@@ -1,12 +1,41 @@
 import React, { FC } from 'react'
-import { Link } from 'react-router-dom'
-import { HOME_PATHNAME } from '../router'
+import { Button, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
+import { UserOutlined } from '@ant-design/icons'
+import { useDispatch } from 'react-redux'
+import userGetUserInfo from '../hooks/userGetUserInfo'
+import { LOGIN_PATHNAME } from '../router'
+import { removeToken } from '../utils/user-token'
+import { logoutReducer } from '../store/userReducer'
+
 const UserInfo: FC = () => {
-  return (
+  const nav = useNavigate()
+  const dispatch = useDispatch()
+
+  const { username, nickname } = userGetUserInfo()
+
+  function logout() {
+    dispatch(logoutReducer())
+    removeToken() // 清除 token 的存储
+    message.success('退出成功')
+    nav(LOGIN_PATHNAME)
+  }
+
+  const UserInfo = (
     <>
-      <Link to={HOME_PATHNAME}>登录</Link>
+      <span style={{ color: '#e8e8e8' }}>
+        <UserOutlined />
+        {nickname}
+      </span>
+      <Button type="link" onClick={logout}>
+        退出
+      </Button>
     </>
   )
+
+  const Login = <Link to={LOGIN_PATHNAME}>登录</Link>
+
+  return <div>{username ? UserInfo : Login}</div>
 }
 
 export default UserInfo
